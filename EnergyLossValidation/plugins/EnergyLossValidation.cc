@@ -1,15 +1,3 @@
-// -*- C++ -*-
-//
-// Package:    Analyzer/DemoAnalyzer
-// Class:      DemoAnalyzer
-// 
-/**\class DemoAnalyzer DemoAnalyzer.cc Analyzer/DemoAnalyzer/plugins/DemoAnalyzer.cc
-
- Description: [one line class summary]
-
- Implementation:
-     [Notes on implementation]
-*/
 //
 // Original Author:  Georgios Krintiras
 //         Created:  Fri, 13 Mar 2015 11:02:38 GMT
@@ -68,17 +56,11 @@
 #include <stdlib.h> 
 #include <string>
 
-//
-// class declaration
-// migrate to:https://twiki.cern.ch/twiki/bin/viewauth/CMS/ThreadedDQM
-//https://github.com/cirkovic/my-cmssw/blob/master/DQMOffline/RecoB/plugins/BTagPerformanceAnalyzerOnData.cc
-//https://github.com/cms-tau-pog/HighPtTau_539/blob/master/PhysicsTools/PatAlgos/plugins/PATGenCandsFromSimTracksProducer.cc
 
-
-class DemoAnalyzer : public DQMEDAnalyzer {
+class EnergyLossValidation : public DQMEDAnalyzer {
    public:
-      explicit DemoAnalyzer(const edm::ParameterSet&);
-      ~DemoAnalyzer();
+      explicit EnergyLossValidation(const edm::ParameterSet&);
+      ~EnergyLossValidation();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -190,7 +172,7 @@ class DemoAnalyzer : public DQMEDAnalyzer {
 //
 // constructors and destructor
 //
-DemoAnalyzer::DemoAnalyzer(const edm::ParameterSet& iConfig):
+EnergyLossValidation::EnergyLossValidation(const edm::ParameterSet& iConfig):
     simHitsTag_(iConfig.getParameter<std::vector<edm::InputTag> >("SimHitTags"))
  
 {
@@ -198,7 +180,7 @@ DemoAnalyzer::DemoAnalyzer(const edm::ParameterSet& iConfig):
 }
 
 
-DemoAnalyzer::~DemoAnalyzer()
+EnergyLossValidation::~EnergyLossValidation()
 {
  
    // do anything here that needs to be done at desctruction time
@@ -215,7 +197,7 @@ DemoAnalyzer::~DemoAnalyzer()
 
 
 void
-DemoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+EnergyLossValidation::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 #ifdef rrDEBUG
   std::cout << "Famos analysis" << std::endl;
@@ -327,7 +309,7 @@ DemoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
 void 
-DemoAnalyzer::dqmBeginRun(edm::Run const& r, edm::EventSetup const& es)
+EnergyLossValidation::dqmBeginRun(edm::Run const& r, edm::EventSetup const& es)
 {
   es.getData( pdgTable_ ) ;
   
@@ -336,7 +318,7 @@ DemoAnalyzer::dqmBeginRun(edm::Run const& r, edm::EventSetup const& es)
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-DemoAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) 
+EnergyLossValidation::fillDescriptions(edm::ConfigurationDescriptions& descriptions) 
 {
     //The following says we do not know what parameters are allowed so do no validation
     // Please change this to state exactly what you do use, even if it is no parameters
@@ -348,7 +330,7 @@ DemoAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
 
 template <typename T> 
 void 
-DemoAnalyzer::bookHistosPerParticle(std::vector<T> & pdgNames, DQMStore::IBooker & ibooker)
+EnergyLossValidation::bookHistosPerParticle(std::vector<T> & pdgNames, DQMStore::IBooker & ibooker)
 {
     for (unsigned int iPart=0; iPart<pdgNames.size(); ++iPart) 
     {
@@ -380,7 +362,7 @@ DemoAnalyzer::bookHistosPerParticle(std::vector<T> & pdgNames, DQMStore::IBooker
 
 
 void 
-DemoAnalyzer::bookEnergyLossesRelatedInfo1D( std::vector<MonitorElement*>& histos1D, DQMStore::IBooker & ibooker, 
+EnergyLossValidation::bookEnergyLossesRelatedInfo1D( std::vector<MonitorElement*>& histos1D, DQMStore::IBooker & ibooker, 
 					     const std::string &subDet, const std::string &pdgName, int iHisto )
 {
     std::string name(configuredHistos1D_[iHisto].name.data());
@@ -410,7 +392,7 @@ DemoAnalyzer::bookEnergyLossesRelatedInfo1D( std::vector<MonitorElement*>& histo
 
 
 void 
-DemoAnalyzer::bookEnergyLossesRelatedInfo2D( std::vector<MonitorElement*>& histos2D, DQMStore::IBooker & ibooker,
+EnergyLossValidation::bookEnergyLossesRelatedInfo2D( std::vector<MonitorElement*>& histos2D, DQMStore::IBooker & ibooker,
                                              const std::string &subDet, const std::string &pdgName, int iHisto)
 
 {
@@ -441,7 +423,7 @@ DemoAnalyzer::bookEnergyLossesRelatedInfo2D( std::vector<MonitorElement*>& histo
 }
 
 
-void DemoAnalyzer::bookHistograms(DQMStore::IBooker & ibooker, edm::Run const & iRun,
+void EnergyLossValidation::bookHistograms(DQMStore::IBooker & ibooker, edm::Run const & iRun,
 				  edm::EventSetup const & iSetup)
 {
      ibooker.cd();
@@ -470,7 +452,7 @@ void DemoAnalyzer::bookHistograms(DQMStore::IBooker & ibooker, edm::Run const & 
 
 
 void
-DemoAnalyzer::defaultHisto1DFormating(int iHisto, bool publishedParticleFilterWarnings=false)
+EnergyLossValidation::defaultHisto1DFormating(int iHisto, bool publishedParticleFilterWarnings=false)
 {
     //========
     //dynamic title and name (will be substistuted in bookEnergyLossesRelatedInfo1D( std::vector<MonitorElement*>& , DQMStore::IBooker & , const std::string &, const std::string &, int ) ) 
@@ -490,7 +472,7 @@ DemoAnalyzer::defaultHisto1DFormating(int iHisto, bool publishedParticleFilterWa
 
 
 void
-DemoAnalyzer::defaultHisto2DFormating(int iHisto, bool publishedParticleFilterWarnings=false)
+EnergyLossValidation::defaultHisto2DFormating(int iHisto, bool publishedParticleFilterWarnings=false)
 {
     //========
     //dynamic title and name (will be substistuted in bookEnergyLossesRelatedInfo1D( std::vector<MonitorElement*>& , DQMStore::IBooker  & , const std::string &, const std::string &, int ) )
@@ -512,7 +494,7 @@ DemoAnalyzer::defaultHisto2DFormating(int iHisto, bool publishedParticleFilterWa
 
 
 void 
-DemoAnalyzer::fillHisto1DInfo(matEffHistosToPdgIdsToSelect::const_iterator iterator,  int subdetPosBegin, int subdetPosEnd, 
+EnergyLossValidation::fillHisto1DInfo(matEffHistosToPdgIdsToSelect::const_iterator iterator,  int subdetPosBegin, int subdetPosEnd, 
 			      int binToProject, float dE, float dx)
 {
     matEffHistos histos = iterator->second;
@@ -535,7 +517,7 @@ DemoAnalyzer::fillHisto1DInfo(matEffHistosToPdgIdsToSelect::const_iterator itera
 
 
 void
-DemoAnalyzer::fillHisto2DInfo(matEffHistosToPdgIdsToSelect::const_iterator iterator,  int subdetPosBegin, int subdetPosEnd, 
+EnergyLossValidation::fillHisto2DInfo(matEffHistosToPdgIdsToSelect::const_iterator iterator,  int subdetPosBegin, int subdetPosEnd, 
 			      float momentumAtEntry, float dE, float dx)
 {
 
@@ -559,7 +541,7 @@ DemoAnalyzer::fillHisto2DInfo(matEffHistosToPdgIdsToSelect::const_iterator itera
 
 
 std::vector<int> 
-DemoAnalyzer::findSubDet (int detId, int subdetId, const TrackerTopology* const tTopo)
+EnergyLossValidation::findSubDet (int detId, int subdetId, const TrackerTopology* const tTopo)
 {
     std::vector<int> subdetPosBeginAndEnd; 
     if (subdetId == static_cast<int>(PixelSubdetector::PixelBarrel) || subdetId == static_cast<int>(PixelSubdetector::PixelEndcap)) 
@@ -587,7 +569,7 @@ DemoAnalyzer::findSubDet (int detId, int subdetId, const TrackerTopology* const 
 
 
 bool
-DemoAnalyzer::passesFilterSelection(edm::SimTrackContainer::const_iterator simTrack)
+EnergyLossValidation::passesFilterSelection(edm::SimTrackContainer::const_iterator simTrack)
 {
 
    if ((*simTrack).momentum().Eta() < etaMin_)
@@ -638,7 +620,7 @@ DemoAnalyzer::passesFilterSelection(edm::SimTrackContainer::const_iterator simTr
 
 
 void
-DemoAnalyzer::parseConfiguration(const edm::ParameterSet& iConfig)
+EnergyLossValidation::parseConfiguration(const edm::ParameterSet& iConfig)
 {
     for (unsigned int i_subDet=0; i_subDet<simHitsTag_.size(); ++i_subDet)
     {
@@ -710,15 +692,15 @@ DemoAnalyzer::parseConfiguration(const edm::ParameterSet& iConfig)
 
 
 void
-DemoAnalyzer::parseHisto1DFormating(const std::vector<edm::ParameterSet>& histo1DFormatingVPSets)
+EnergyLossValidation::parseHisto1DFormating(const std::vector<edm::ParameterSet>& histo1DFormatingVPSets)
 {
     for (unsigned int iHisto=0; iHisto< binsToProject_.size()-1; ++iHisto)
     {   
         configuredHistos1D_.push_back(histo1DFormating());
         if(iHisto<histo1DFormatingVPSets.size()) //Read parameters given in the configuration file 
 	{
-	    configuredHistos1D_[iHisto].title = histo1DFormatingVPSets[iHisto].getParameter<std::string>("title");
-	    configuredHistos1D_[iHisto].name = histo1DFormatingVPSets[iHisto].getParameter<std::string>("name");
+	    configuredHistos1D_[iHisto].title = histo1DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("title");
+	    configuredHistos1D_[iHisto].name = histo1DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("name");
 	    configuredHistos1D_[iHisto].labelx = histo1DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("labelx");
 	    configuredHistos1D_[iHisto].labely = histo1DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("labely");
 	    configuredHistos1D_[iHisto].rangex = histo1DFormatingVPSets[iHisto].getUntrackedParameter<std::vector<double> >("rangex");
@@ -735,15 +717,15 @@ DemoAnalyzer::parseHisto1DFormating(const std::vector<edm::ParameterSet>& histo1
 
 
 void
-DemoAnalyzer::parseHisto2DFormating(const std::vector<edm::ParameterSet>& histo2DFormatingVPSets)
+EnergyLossValidation::parseHisto2DFormating(const std::vector<edm::ParameterSet>& histo2DFormatingVPSets)
 {
     for (unsigned int iHisto=0; iHisto< subDetsToBinsToProject_.size(); ++iHisto)
     {
         configuredHistos2D_.push_back(histo2DFormating());
         if(iHisto<histo2DFormatingVPSets.size()) //Read parameters given in the configuration file
         {
-	    configuredHistos2D_[iHisto].title = histo2DFormatingVPSets[iHisto].getParameter<std::string>("title");
-	    configuredHistos2D_[iHisto].name = histo2DFormatingVPSets[iHisto].getParameter<std::string>("name");
+	    configuredHistos2D_[iHisto].title = histo2DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("title");
+	    configuredHistos2D_[iHisto].name = histo2DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("name");
 	    configuredHistos2D_[iHisto].labelx = histo2DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("labelx");
 	    configuredHistos2D_[iHisto].labely = histo2DFormatingVPSets[iHisto].getUntrackedParameter<std::string>("labely");
 	    configuredHistos2D_[iHisto].rangex = histo2DFormatingVPSets[iHisto].getUntrackedParameter<std::vector<double> >("rangex");
@@ -760,7 +742,7 @@ DemoAnalyzer::parseHisto2DFormating(const std::vector<edm::ParameterSet>& histo2
 
 
 void
-DemoAnalyzer::publishHisto1DFormatingWarnings(const std::vector<edm::ParameterSet>&  histo1DFormatingVPSets)
+EnergyLossValidation::publishHisto1DFormatingWarnings(const std::vector<edm::ParameterSet>&  histo1DFormatingVPSets)
 {
     if(histo1DFormatingVPSets.size()>binsToProject_.size()+1)
     {
@@ -782,7 +764,7 @@ DemoAnalyzer::publishHisto1DFormatingWarnings(const std::vector<edm::ParameterSe
 
 
 void
-DemoAnalyzer::publishHisto2DFormatingWarnings(const std::vector<edm::ParameterSet>&  histo2DFormatingVPSets)
+EnergyLossValidation::publishHisto2DFormatingWarnings(const std::vector<edm::ParameterSet>&  histo2DFormatingVPSets)
 {
     if(histo2DFormatingVPSets.size()>subDetsToBinsToProject_.size())   
     {
@@ -804,7 +786,7 @@ DemoAnalyzer::publishHisto2DFormatingWarnings(const std::vector<edm::ParameterSe
 
 
 void
-DemoAnalyzer::publishParticleFilterWarnings()
+EnergyLossValidation::publishParticleFilterWarnings()
 {
     if (etaMin_== etaMax_)
     {
@@ -871,4 +853,4 @@ DemoAnalyzer::publishParticleFilterWarnings()
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(DemoAnalyzer);
+DEFINE_FWK_MODULE(EnergyLossValidation);
