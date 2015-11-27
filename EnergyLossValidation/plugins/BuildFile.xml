@@ -1,4 +1,17 @@
 <use name="FWCore/Framework"/>
 <use name="FWCore/PluginManager"/>
 <use name="FWCore/ParameterSet"/>
+<use   name="DQMServices/Core"/>
+<use name="DataFormats/TrackReco"/>
+<use name="DataFormats/HepMCCandidate"/>
+<use name="DataFormats/TrackerCommon"/>
+<use name="DataFormats/Math"/> 
+<use name="SimDataFormats/TrackingHit"/>
+<use name="SimGeneral/HepPDTRecord"/>
+<use name="Geometry/TrackerGeometryBuilder"/>
+<use name="Geometry/Records"/>
+<use name="CommonTools/UtilAlgos"/>
+<use   name="clhep"/>
+<use   name="hepmc"/>
+<use   name="heppdt"/>
 <flags EDM_PLUGIN="1"/>
