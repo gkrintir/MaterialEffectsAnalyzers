@@ -18,7 +18,7 @@ EnergyLossValidation = cms.EDAnalyzer('EnergyLossValidation',
      ),
      particleSelection = cms.PSet(
         # Particles with the given PDG code(s) will be considered
-        particleTypes = cms.untracked.vint32(211),
+        particleTypes = cms.untracked.vint32(),
         # Sign sensitive; should anti-particles be analyzed, please set 'True'
         selectAntiParticle = cms.untracked.bool(True)
      ),
